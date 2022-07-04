@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -37,4 +39,28 @@ func GetProduct(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{
 			"error": "Verifique se o tipo está no formado String ou JSON"})
 	}
+}
+
+func AddProduct(c echo.Context) error {
+	type Product struct {
+		Name        string `json:"name"`
+		Type        string `json:"type"`
+		Category    string `json:"category"`
+		SubCategory string `json:"subCategory"`
+		Price       string `json:"price"`
+		DataType    string `json:"datatype"`
+	}
+
+	newProduct := Product{}
+
+	defer c.Request().Body.Close()
+
+	err := json.NewDecoder(c.Request().Body).Decode(&newProduct)
+
+	if err != nil {
+		log.Fatal("Não foi possível ler requisição")
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error)
+	}
+
+	return c.String(http.StatusOK, "Produto adicionando!")
 }
