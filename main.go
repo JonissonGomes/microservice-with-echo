@@ -12,6 +12,9 @@ import (
 func main() {
 	echo := echo.New()
 	echo.Logger.Fatal(echo.Start(":9000"))
+
+	echo.GET("/product/:data", GetProduct)
+	echo.POST("/product", AddProduct)
 }
 
 func GetProduct(c echo.Context) error {
