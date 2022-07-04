@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/JonissonGomes/microservice-with-echo/structs"
 	"github.com/labstack/echo"
 )
 
@@ -37,16 +38,8 @@ func GetProduct(c echo.Context) error {
 }
 
 func AddProduct(c echo.Context) error {
-	type Product struct {
-		Name        string `json:"name"`
-		Type        string `json:"type"`
-		Category    string `json:"category"`
-		SubCategory string `json:"subCategory"`
-		Price       string `json:"price"`
-		DataType    string `json:"datatype"`
-	}
 
-	newProduct := Product{}
+	newProduct := structs.Product{}
 
 	defer c.Request().Body.Close()
 
